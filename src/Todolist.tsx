@@ -3,6 +3,7 @@ import {AddItemForm} from './AddItemForm'
 import {EditableSpan} from './EditableSpan'
 import {Task} from './Task'
 import {FilterValuesType} from './App';
+import "./Todolist.css";
 import TrashIcon from './assecs/icons8-trash.svg'
 
 export type TaskType = {
@@ -27,7 +28,7 @@ type PropsType = {
 }
 
 export const Todolist = React.memo(function (props: PropsType) {
-    console.log('Todolist called')
+    console.log(props.filter)
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
@@ -70,10 +71,10 @@ export const Todolist = React.memo(function (props: PropsType) {
                 />)
             }
         </div>
-        <div style={{paddingTop: '10px'}}>
-            <button onClick={onAllClickHandler}>all</button>
-            <button onClick={onActiveClickHandler}>active</button>
-            <button onClick={onCompletedClickHandler}>completed</button>
+        <div style={{paddingTop: '8px'}}>
+            <button className={props.filter === 'all' ? 'filterButton filterActiveButton' : 'filterButton'} onClick={onAllClickHandler}>all</button>
+            <button className={props.filter === 'active' ? 'filterButton filterActiveButton' : 'filterButton'} onClick={onActiveClickHandler}>active</button>
+            <button className={props.filter === 'completed' ? 'filterButton filterActiveButton' : 'filterButton'} onClick={onCompletedClickHandler}>completed</button>
         </div>
     </div>
 })
