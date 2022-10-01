@@ -4,6 +4,7 @@ import {EditableSpan} from './EditableSpan'
 import {Task} from './Task'
 import {FilterValuesType} from './App';
 import "./Todolist.css";
+import TrashIcon from './assecs/icons8-trash.svg'
 
 export type TaskType = {
     id: string
@@ -40,10 +41,10 @@ export const Todolist = React.memo(function (props: PropsType) {
         props.changeTodolistTitle(props.id, title)
     }, [props.id, props.changeTodolistTitle])
 
-
     const onAllClickHandler = useCallback(() => props.changeFilter('all', props.id), [props.id, props.changeFilter])
     const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.id), [props.id, props.changeFilter])
     const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.id), [props.id, props.changeFilter])
+
 
     let tasksForTodolist = props.tasks
 
@@ -56,7 +57,9 @@ export const Todolist = React.memo(function (props: PropsType) {
 
     return <div>
         <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
-            <button onClick={removeTodolist}>x</button>
+            <button  onClick={removeTodolist}>
+                <img src={TrashIcon}/>
+            </button>
         </h3>
         <AddItemForm addItem={addTask}/>
         <div>

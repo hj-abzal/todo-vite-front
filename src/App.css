@@ -1,11 +1,18 @@
 
 .App {
-  padding:10px;
-  display: flex;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
 }
 
 .App > div {
-  margin-right: 50px;
+    margin-right: 50px;
+    border-radius: 20px;
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 10px;
 }
 .AddItemFormWrapper {
     display: inline-block;
