@@ -1,26 +1,53 @@
-/*
+
 .App {
-  padding: 30px;
+  padding:10px;
   display: flex;
 }
 
 .App > div {
   margin-right: 50px;
 }
-
-.error {
-  border: red 1px solid;
+.AddItemFormWrapper {
+    display: inline-block;
+}
+.Error {
+   height:6px;
+    display:block;
+    color:fuchsia ;
 }
 
 .error-message {
   color: red;
 }
 
-.active-filter {
-  background-color: aquamarine;
+.active-filter{
+    background-color: darkgray;
+    border-radius: 10px;
 }
 
 .is-done {
   opacity: 0.5;
 }
-*/
+.Input {
+    height: 16px;
+    border-radius: 8px;
+    border-color: yellowgreen;
+    background-color: beige;
+    box-sizing: content-box;
+   font-size: 14px;
+  }
+.AddButton {
+    align-items: center;
+    border-radius: 5px;
+    background-color: darkseagreen;
+    background-position-x: center;
+    height: 20px;
+    text-align: center;
+    display: flex;
+margin: 8px;
+}
+
+.AddItemFormWrapper {
+    display: flex;
+    align-items: center;
+}
