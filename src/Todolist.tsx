@@ -3,6 +3,7 @@ import {AddItemForm} from './AddItemForm'
 import {EditableSpan} from './EditableSpan'
 import {Task} from './Task'
 import {FilterValuesType} from './App';
+import TrashIcon from './assecs/icons8-trash.svg'
 
 export type TaskType = {
     id: string
@@ -55,7 +56,9 @@ export const Todolist = React.memo(function (props: PropsType) {
 
     return <div>
         <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
-            <button onClick={removeTodolist}>x</button>
+            <button  onClick={removeTodolist}>
+                <img src={TrashIcon}/>
+            </button>
         </h3>
         <AddItemForm addItem={addTask}/>
         <div>

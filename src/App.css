@@ -1,26 +1,42 @@
-/*
+
 .App {
-  padding: 30px;
-  display: flex;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
 }
 
 .App > div {
-  margin-right: 50px;
+    margin-right: 50px;
+    border-radius: 20px;
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 10px;
 }
+/*#trash{*/
+/*    width: 10px;*/
+/*    height: 10px;*/
+/*}*/
+/*.App.deleteTask{*/
+/*    display: flex;*/
+/*    float: right;*/
+/*    width: 10px;*/
+/*    height: 10px;*/
+/*}*/
+/*.error {*/
+/*  border: red 1px solid;*/
+/*}*/
 
-.error {
-  border: red 1px solid;
-}
+/*.error-message {*/
+/*  color: red;*/
+/*}*/
 
-.error-message {
-  color: red;
-}
+/*.active-filter {*/
+/*  background-color: aquamarine;*/
+/*}*/
 
-.active-filter {
-  background-color: aquamarine;
-}
+/*.is-done {*/
+/*  opacity: 0.5;*/
+/*}*/
 
-.is-done {
-  opacity: 0.5;
-}
-*/
