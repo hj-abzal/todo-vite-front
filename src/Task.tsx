@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useCallback} from 'react'
 import {EditableSpan} from './EditableSpan'
 import {TaskType} from './Todolist'
-
+import './Task.css';
 type TaskPropsType = {
     task: TaskType
     todolistId: string
@@ -21,9 +21,9 @@ export const Task = React.memo((props: TaskPropsType) => {
         props.changeTaskTitle(props.task.id, newValue, props.todolistId)
     }, [props.task.id, props.todolistId]);
 
-    return <div key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>
-        <input type="checkbox" checked={props.task.isDone} onChange={onChangeHandler}/>
+    return <div key={props.task.id} className={props.task.isDone ? 'is-done ggg ' : 'ggg '}>
+        <input type="checkbox" className="right"  checked={props.task.isDone} onChange={onChangeHandler}/>
         <EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
-        <button onClick={onClickHandler}>x</button>
+        <button className="left" onClick={onClickHandler}>x</button>
     </div>
 })
