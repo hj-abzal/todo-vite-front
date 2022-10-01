@@ -67,7 +67,7 @@ export const Todolist = React.memo(function (props: PropsType) {
                 />)
             }
         </div>
-        <div style={{paddingTop: '10px'}}>
+        <div style={{paddingTop: '8px'}}>
             <button onClick={onAllClickHandler}>all</button>
             <button onClick={onActiveClickHandler}>active</button>
             <button onClick={onCompletedClickHandler}>completed</button>
