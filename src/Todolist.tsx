@@ -3,6 +3,7 @@ import {AddItemForm} from './AddItemForm'
 import {EditableSpan} from './EditableSpan'
 import {Task} from './Task'
 import {FilterValuesType} from './App';
+import "./Todolist.css";
 
 export type TaskType = {
     id: string
@@ -26,7 +27,7 @@ type PropsType = {
 }
 
 export const Todolist = React.memo(function (props: PropsType) {
-    console.log('Todolist called')
+    console.log(props.filter)
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
@@ -39,10 +40,10 @@ export const Todolist = React.memo(function (props: PropsType) {
         props.changeTodolistTitle(props.id, title)
     }, [props.id, props.changeTodolistTitle])
 
+
     const onAllClickHandler = useCallback(() => props.changeFilter('all', props.id), [props.id, props.changeFilter])
     const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.id), [props.id, props.changeFilter])
     const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.id), [props.id, props.changeFilter])
-
 
     let tasksForTodolist = props.tasks
 
@@ -68,9 +69,9 @@ export const Todolist = React.memo(function (props: PropsType) {
             }
         </div>
         <div style={{paddingTop: '8px'}}>
-            <button onClick={onAllClickHandler}>all</button>
-            <button onClick={onActiveClickHandler}>active</button>
-            <button onClick={onCompletedClickHandler}>completed</button>
+            <button className={props.filter === 'all' ? 'filterButton filterActiveButton' : 'filterButton'} onClick={onAllClickHandler}>all</button>
+            <button className={props.filter === 'active' ? 'filterButton filterActiveButton' : 'filterButton'} onClick={onActiveClickHandler}>active</button>
+            <button className={props.filter === 'completed' ? 'filterButton filterActiveButton' : 'filterButton'} onClick={onCompletedClickHandler}>completed</button>
         </div>
     </div>
 })
