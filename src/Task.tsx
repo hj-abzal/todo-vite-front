@@ -28,6 +28,5 @@ export const Task = React.memo((props: TaskPropsType) => {
         <button className="left" onClick={onClickHandler}>
             <img src={TrashTask}/>
         </button>
-        <button onClick={onClickHandler}></button>
     </div>
 })
