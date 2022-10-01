@@ -14,7 +14,7 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
             props.addItem(title);
             setTitle('');
         } else {
-            setError('Title is required');
+            setError('Title is required!');
         }
     }
 
@@ -30,9 +30,13 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
             addItem();
         }
     }
-
-    return <div>
-        <input type="text" value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
-        <button onClick={addItem}>+</button>
+    console.log(error);
+    return <div className="AddItemFormWrapper">
+        <div>
+            <input className="Input" type="text" value={title} onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}/>
+            <span className="Error"> {error ? error : ''}</span>
+        </div>
+        <button className="AddButton" onClick={addItem}>+</button>
     </div>
 })
