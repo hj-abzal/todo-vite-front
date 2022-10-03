@@ -1,7 +1,7 @@
-import { TaskType } from '../Todolist';
-import { v1 } from 'uuid';
-import { AddTodolistActionType, RemoveTodolistActionType } from './todolists-reducer';
-import { TasksStateType } from '../App';
+import {TaskType} from '../Todolist';
+import {v1} from 'uuid';
+import {AddTodolistActionType, RemoveTodolistActionType} from './todolists-reducer';
+import {TasksStateType, TodolistType} from '../App';
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -29,13 +29,17 @@ export type ChangeTaskTitleActionType = {
     title: string
 }
 
+
 type ActionsType = RemoveTaskActionType | AddTaskActionType
     | ChangeTaskStatusActionType
     | ChangeTaskTitleActionType
     | AddTodolistActionType
     | RemoveTodolistActionType
+    | SetTodolistsAT
+    | SetTasksAT
 
-const initialState: TasksStateType = {}
+const initialState: TasksStateType = {
+}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
@@ -86,6 +90,18 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             delete copyState[action.id];
             return copyState;
         }
+        case 'SET-TODOLISTS': {
+            const copyState = {...state};
+            action.todolists.forEach((t) => {
+                copyState[t.id] = []
+            })
+            return copyState
+        }
+        case 'SET-TASKS': {
+            const copyState = {...state};
+            copyState[action.todoId] = action.tasks;
+            return copyState
+        }
         default:
             return state;
     }
@@ -104,3 +120,20 @@ export const changeTaskTitleAC = (taskId: string, title: string, todolistId: str
     return {type: 'CHANGE-TASK-TITLE', title, todolistId, taskId}
 }
 
+export const setTodolistsAC = (todolists: TodolistType[]): SetTodolistsAT => {
+    return {type: 'SET-TODOLISTS', todolists}
+}
+
+export const setTasksAC = (tasks: TaskType[], todoId: string): SetTasksAT => {
+    return {type: 'SET-TASKS', tasks, todoId}
+}
+export type SetTasksAT = {
+    type: 'SET-TASKS',
+    todoId: string;
+    tasks: TaskType[]
+}
+
+export type SetTodolistsAT = {
+    type: 'SET-TODOLISTS',
+    todolists: TodolistType[]
+}

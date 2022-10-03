@@ -1,4 +1,4 @@
-    import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {AddItemForm} from './AddItemForm';
@@ -8,10 +8,10 @@ import {
     changeTodolistTitleAC,
     removeTodolistAC
 } from './state/todolists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTodolistsAC} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
-import {todolistApi} from './api/api';
+import axios from "axios";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -68,13 +68,27 @@ export function App() {
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        todolistApi.create(title);
-        const action = addTodolistAC(title);
-        dispatch(action);
+        axios.post(`https://todo-back-production.up.railway.app/todolists/`, {title},{
+            headers: {
+                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbV9pZCI6MTA3MTkyNzE1MiwiaWQiOjEsImxvZ2luIjoiU3VhbiIsImlhdCI6MTY2NDYyMDQ4OCwiZXhwIjoxNjY0NzA2ODg4fQ.B3nGolcoTu7Hz-7b8qNYnM0tnmQnmWUDe1c_9889NLg"
+            }
+        }).then((res) => {
+            const action = addTodolistAC(title);
+            dispatch(action);
+        })
+
     }, [dispatch]);
 
     useEffect(() => {
-        todolistApi.get();
+        axios.get('https://todo-back-production.up.railway.app/todolists', {
+            headers: {
+                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbV9pZCI6MTA3MTkyNzE1MiwiaWQiOjEsImxvZ2luIjoiU3VhbiIsImlhdCI6MTY2NDYyMDQ4OCwiZXhwIjoxNjY0NzA2ODg4fQ.B3nGolcoTu7Hz-7b8qNYnM0tnmQnmWUDe1c_9889NLg"
+            }
+        }).then((res) => {
+            console.log(res.data);
+            const todos = res.data.map((el: any) => ({...el, filter: 'all'}))
+            dispatch(setTodolistsAC(todos))
+        })
 
     }, []);
 

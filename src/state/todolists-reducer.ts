@@ -1,5 +1,6 @@
-import { v1 } from 'uuid';
-import { FilterValuesType, TodolistType } from '../App';
+import {v1} from 'uuid';
+import {FilterValuesType, TodolistType} from '../App';
+import {SetTodolistsAT} from "./tasks-reducer";
 
 export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST',
@@ -24,8 +25,10 @@ export type ChangeTodolistFilterActionType = {
 type ActionsType = RemoveTodolistActionType | AddTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType
+    | SetTodolistsAT
 
-const initialState: Array<TodolistType> = []
+const initialState: Array<TodolistType> = [
+    ]
 
 export const todolistsReducer = (state: Array<TodolistType> = initialState, action: ActionsType): Array<TodolistType> => {
     switch (action.type) {
@@ -54,6 +57,10 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState, acti
                 todolist.filter = action.filter;
             }
             return [...state]
+        }
+
+        case 'SET-TODOLISTS': {
+            return action.todolists
         }
         default:
             return state;
