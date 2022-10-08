@@ -11,7 +11,7 @@ import {
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTodolistsAC} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
-import axios from "axios";
+import {todolistApi} from "./api/api";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -68,54 +68,47 @@ export function App() {
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        axios.post(`https://todo-back-production.up.railway.app/todolists/`, {title},{
-            headers: {
-                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbV9pZCI6MTA3MTkyNzE1MiwiaWQiOjEsImxvZ2luIjoiU3VhbiIsImlhdCI6MTY2NDYyMDQ4OCwiZXhwIjoxNjY0NzA2ODg4fQ.B3nGolcoTu7Hz-7b8qNYnM0tnmQnmWUDe1c_9889NLg"
-            }
-        }).then((res) => {
-            const action = addTodolistAC(title);
-            dispatch(action);
-        })
+        todolistApi.post(title)
+            .then((res) => {
+                const action = addTodolistAC(title);
+                dispatch(action);
+            })
 
     }, [dispatch]);
 
     useEffect(() => {
-        axios.get('https://todo-back-production.up.railway.app/todolists', {
-            headers: {
-                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbV9pZCI6MTA3MTkyNzE1MiwiaWQiOjEsImxvZ2luIjoiU3VhbiIsImlhdCI6MTY2NDYyMDQ4OCwiZXhwIjoxNjY0NzA2ODg4fQ.B3nGolcoTu7Hz-7b8qNYnM0tnmQnmWUDe1c_9889NLg"
-            }
-        }).then((res) => {
-            console.log(res.data);
-            const todos = res.data.map((el: any) => ({...el, filter: 'all'}))
-            dispatch(setTodolistsAC(todos))
-        })
+        todolistApi.get()
+            .then((res) => {
+                const todos = res.data.map((el: any) => ({...el, filter: 'all'}))
+                dispatch(setTodolistsAC(todos))
+            })
 
     }, []);
 
     return (
         <div className="App">
-                    <AddItemForm addItem={addTodolist}/>
-                    {
-                        todolists.map(tl => {
-                            let allTodolistTasks = tasks[tl.id];
+            <AddItemForm addItem={addTodolist}/>
+            {
+                todolists.map(tl => {
+                    let allTodolistTasks = tasks[tl.id];
 
-                            return <div key={tl.id}>
-                                    <Todolist
-                                        id={tl.id}
-                                        title={tl.title}
-                                        tasks={allTodolistTasks}
-                                        removeTask={removeTask}
-                                        changeFilter={changeFilter}
-                                        addTask={addTask}
-                                        changeTaskStatus={changeStatus}
-                                        filter={tl.filter}
-                                        removeTodolist={removeTodolist}
-                                        changeTaskTitle={changeTaskTitle}
-                                        changeTodolistTitle={changeTodolistTitle}
-                                    />
-                            </div>;
-                        })
-                    }
+                    return <div key={tl.id}>
+                        <Todolist
+                            id={tl.id}
+                            title={tl.title}
+                            tasks={allTodolistTasks}
+                            removeTask={removeTask}
+                            changeFilter={changeFilter}
+                            addTask={addTask}
+                            changeTaskStatus={changeStatus}
+                            filter={tl.filter}
+                            removeTodolist={removeTodolist}
+                            changeTaskTitle={changeTaskTitle}
+                            changeTodolistTitle={changeTodolistTitle}
+                        />
+                    </div>;
+                })
+            }
 
         </div>
     );
