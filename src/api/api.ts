@@ -8,17 +8,36 @@ const instance = axios.create({
     }
 });
 
-export const authApi = {
-
-
-};
+export const authApi = {};
 
 export const todolistApi = {
     get: () => {
         return instance.get('todolists')
     },
-    post: (todoTitle: string) => {
+    create: (todoTitle: string) => {
         return instance.post('todolists', {title: todoTitle})
+    },
+    delete: (todoID: string) => {
+        return instance.delete(`todolists/${todoID}`)
+    },
+    update: (todoID: string, title: string) => {
+        return instance.put(`todolists/${todoID}`, {title})
     }
 };
+
+export const taskApi = {
+    get: (todolistID: string) => {
+        return instance.get(`todolists/${todolistID}/tasks`)
+    },
+    create: (title: string, todolistID: string) => {
+        return instance.post(`todolists/${todolistID}/tasks`, {title})
+    },
+    delete: (todoID: string, taskID: string) => {
+        return instance.delete(`todolists/${todoID}/tasks/${taskID}`)
+    },
+    update: (todoID: string, title: string, taskID: string) => {
+        return instance.put(`todolists/${todoID}/tasks/${taskID}`, {title})
+    }
+};
+
 

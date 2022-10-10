@@ -3,15 +3,15 @@ import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {AddItemForm} from './AddItemForm';
 import {
-    addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC
+    changeTodolistTitleTC,
+    createTodolistTC,
+    deleteTodolistTC,
+    getTodolistsTC
 } from './state/todolists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTodolistsAC} from './state/tasks-reducer';
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
-import {todolistApi} from "./api/api";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -27,10 +27,9 @@ export type TasksStateType = {
 
 
 export function App() {
-
     const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
         const action = removeTaskAC(id, todolistId);
@@ -58,31 +57,19 @@ export function App() {
     }, []);
 
     const removeTodolist = useCallback(function (id: string) {
-        const action = removeTodolistAC(id);
-        dispatch(action);
+       dispatch(deleteTodolistTC(id))
     }, []);
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
-        const action = changeTodolistTitleAC(id, title);
-        dispatch(action);
+        dispatch(changeTodolistTitleTC(id, title))
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        todolistApi.post(title)
-            .then((res) => {
-                const action = addTodolistAC(title);
-                dispatch(action);
-            })
-
+       dispatch(createTodolistTC(title))
     }, [dispatch]);
 
     useEffect(() => {
-        todolistApi.get()
-            .then((res) => {
-                const todos = res.data.map((el: any) => ({...el, filter: 'all'}))
-                dispatch(setTodolistsAC(todos))
-            })
-
+        dispatch(getTodolistsTC())
     }, []);
 
     return (
