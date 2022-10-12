@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import s from './AddItemForm.module.css';
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -30,13 +31,17 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
             addItem();
         }
     }
-    console.log(error);
-    return <div className="AddItemFormWrapper">
+
+    return <div className={s.wrapper}>
         <div>
-            <input className="Input" type="text" value={title} onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}/>
-            <span className="Error"> {error ? error : ''}</span>
+            <input
+                className={s.Input}
+                type="text"
+                value={title}
+                onChange={onChangeHandler}
+                onKeyPress={onKeyPressHandler}/>
+            <span className={s.error}> {error ? error : ''}</span>
         </div>
-        <button className="AddButton" onClick={addItem}>+</button>
+        <button onClick={addItem}>+</button>
     </div>
 })

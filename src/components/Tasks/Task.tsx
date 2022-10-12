@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useCallback} from 'react'
-import {EditableSpan} from './EditableSpan'
-import {TaskType} from './Todolist'
-import './Task.css';
-import TrashTask from './assecs/icons8-trash.svg'
+import {EditableSpan} from '../EditableSpan/EditableSpan'
+import {TaskType} from '../Todolist/Todolist'
+import s from './Task.module.css';
+import TrashTask from '../../assets/icons8-trash.svg'
 
 type TaskPropsType = {
     task: TaskType
@@ -23,10 +23,9 @@ export const Task = React.memo((props: TaskPropsType) => {
         props.changeTaskTitle(props.task.id, newValue, props.todolistId)
     }, [props.task.id, props.todolistId]);
 
-    return <div key={props.task.id} className={props.task.isDone ? 'is-done ggg ' : 'ggg '}>
+    return <div key={props.task.id} className={s.wrapper} style={{opacity: props.task.isDone ? 0.4 : 1}}>
         <input type="checkbox" className="right"  checked={props.task.isDone} onChange={onChangeHandler}/>
         <EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
-        <button className="left" onClick={onClickHandler}>x</button>
         <button onClick={onClickHandler}>
             <img src={TrashTask}/>
         </button>
