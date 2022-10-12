@@ -1,0 +1,14 @@
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: #F5FFFA;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 2rem;
+    padding: 2rem 3rem;
+}
+
+

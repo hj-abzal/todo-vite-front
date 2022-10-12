@@ -1,7 +1,7 @@
-    import {useCallback, useEffect} from 'react';
-import './App.css';
-import {TaskType, Todolist} from './Todolist';
-import {AddItemForm} from './AddItemForm';
+import {useCallback} from 'react';
+import style from './App.module.css';
+import {TaskType, Todolist} from './components/Todolist/Todolist';
+import {AddItemForm} from './components/AddItemForm/AddItemForm';
 import {
     addTodolistAC,
     changeTodolistFilterAC,
@@ -11,7 +11,6 @@ import {
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
-import {todolistApi} from './api/api';
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -24,7 +23,6 @@ export type TodolistType = {
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
-
 
 export function App() {
 
@@ -68,40 +66,37 @@ export function App() {
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        todolistApi.create(title);
         const action = addTodolistAC(title);
         dispatch(action);
     }, [dispatch]);
 
-    useEffect(() => {
-        todolistApi.get();
-
-    }, []);
-
     return (
-        <div className="App">
-                    <AddItemForm addItem={addTodolist}/>
-                    {
-                        todolists.map(tl => {
-                            let allTodolistTasks = tasks[tl.id];
+        <div className={style.wrapper}>
+            <AddItemForm addItem={addTodolist}/>
+            <div className={style.gridContainer}>
+                {
+                    todolists.map(tl => {
+                        let allTodolistTasks = tasks[tl.id];
 
-                            return <div key={tl.id}>
-                                    <Todolist
-                                        id={tl.id}
-                                        title={tl.title}
-                                        tasks={allTodolistTasks}
-                                        removeTask={removeTask}
-                                        changeFilter={changeFilter}
-                                        addTask={addTask}
-                                        changeTaskStatus={changeStatus}
-                                        filter={tl.filter}
-                                        removeTodolist={removeTodolist}
-                                        changeTaskTitle={changeTaskTitle}
-                                        changeTodolistTitle={changeTodolistTitle}
-                                    />
-                            </div>;
-                        })
-                    }
+                        return <div className={style.gridItem} key={tl.id}>
+                            <Todolist
+                                id={tl.id}
+                                title={tl.title}
+                                tasks={allTodolistTasks}
+                                removeTask={removeTask}
+                                changeFilter={changeFilter}
+                                addTask={addTask}
+                                changeTaskStatus={changeStatus}
+                                filter={tl.filter}
+                                removeTodolist={removeTodolist}
+                                changeTaskTitle={changeTaskTitle}
+                                changeTodolistTitle={changeTodolistTitle}
+                            />
+                        </div>;
+                    })
+                }
+
+            </div>
 
         </div>
     );

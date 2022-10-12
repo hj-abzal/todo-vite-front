@@ -1,0 +1,11 @@
+
+.wrapper {
+    width: 300px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.isDone {
+    opacity: 0.5;
+}

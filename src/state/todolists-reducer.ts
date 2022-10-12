@@ -1,5 +1,5 @@
-import { v1 } from 'uuid';
-import { FilterValuesType, TodolistType } from '../App';
+import {v1} from 'uuid';
+import {FilterValuesType, TodolistType} from '../App';
 
 export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST',
@@ -72,4 +72,3 @@ export const changeTodolistTitleAC = (id: string, title: string): ChangeTodolist
 export const changeTodolistFilterAC = (id: string, filter: FilterValuesType): ChangeTodolistFilterActionType => {
     return {type: 'CHANGE-TODOLIST-FILTER', id: id, filter: filter}
 }
-
