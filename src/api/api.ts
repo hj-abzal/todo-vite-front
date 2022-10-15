@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbV9pZCI6MTA3MTkyNzE1MiwiaWQiOjEsImxvZ2luIjoiU3VhbiIsImlhdCI6MTY2NTgyMTQ3OSwiZXhwIjoxNjY1OTA3ODc5fQ.dk7ZaMr2EGinbyIGrMy8SOAuUVRSbtf80rr85JzR3_U'
+export const token = localStorage.getItem ('token')
 const instance = axios.create({
     baseURL: 'https://todo-back-production.up.railway.app/',
     headers: {
@@ -8,6 +8,15 @@ const instance = axios.create({
         Authorization: `Bearer ${token}`
     }
 });
+
+export const authApi = {
+    me: ()=> {
+        return instance.get('auth/me')
+    },
+    login: (telegram_id:number, login:string, password:string)=>{
+        return instance.post('auth/login',{telegram_id,login,password})
+    }
+}
 
 
 export const todolistApi = {

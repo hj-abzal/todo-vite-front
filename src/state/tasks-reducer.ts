@@ -3,6 +3,7 @@ import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsAT} from '.
 import {TasksStateType} from '../App';
 import {Dispatch} from 'redux';
 import {taskApi} from "../api/api";
+import {setIsLoadingAC} from "./app-reducer";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -144,24 +145,30 @@ export const getTasksTC = (todolistId: string) => {
 
 export const createTaskTC = (todolistId: string, title: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setIsLoadingAC(true))
         taskApi.create(todolistId, title)
             .then((res) => {
                 const action = addTaskAC(title, todolistId, res.data.id);
                 dispatch(action);
             })
-            .catch(() => {
+            .catch()
+            .finally(() => {
+                dispatch(setIsLoadingAC(false))
             })
     }
 }
 
 export const deleteTaskTC = (todolistId: string, taskId: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setIsLoadingAC(true))
         taskApi.delete(todolistId, taskId)
             .then(() => {
                 const action = removeTaskAC(todolistId, taskId)
                 dispatch(action);
             })
-            .catch(() => {
+            .catch()
+            .finally(() => {
+                dispatch(setIsLoadingAC(false))
             })
     }
 }
@@ -169,22 +176,28 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => {
 
 export const changeTaskTitleTC = (todolistId: string, taskTitle: string, taskId: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setIsLoadingAC(true))
         taskApi.updateTitle(todolistId, taskTitle, taskId)
             .then(() => {
                 dispatch(changeTaskTitleAC(todolistId, taskTitle, taskId));
             })
-            .catch(() => {
+            .catch()
+            .finally(() => {
+                dispatch(setIsLoadingAC(false))
             })
     }
 }
 
 export const changeTaskStatusTC = (todolistId: string, isDone: boolean, taskId: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setIsLoadingAC(true))
         taskApi.updateStatus(todolistId, isDone, taskId)
             .then(() => {
                 dispatch(changeTaskStatusAC(todolistId, isDone, taskId));
             })
-            .catch(() => {
+            .catch()
+            .finally(() => {
+                dispatch(setIsLoadingAC(false))
             })
     }
 }

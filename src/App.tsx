@@ -12,6 +12,11 @@ import {
 import {changeTaskStatusTC, changeTaskTitleTC, createTaskTC, deleteTaskTC} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
+import Loading from "./components/Loading/Loading";
+import {Navigate} from "react-router-dom";
+import axios from "axios";
+import {authApi} from "./api/api";
+import {authMeTC} from "./state/app-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistType = {
@@ -28,6 +33,8 @@ export function App() {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
+    const isLoading = useSelector<AppRootStateType, boolean>(state => state.app.isLoading);
+    const isLogged = useSelector<AppRootStateType, boolean>(state => state.app.isLogged);
     const dispatch = useDispatch<any>();
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
@@ -65,8 +72,18 @@ export function App() {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getTodolistsTC())
+        dispatch(authMeTC())
+        if(isLogged){
+            dispatch (getTodolistsTC())
+        }
     }, [])
+
+    if (isLoading) {
+        return <Loading/>
+    }
+    if (!isLogged) {
+        return <Navigate to={'/auth'}/>
+    }
     return (
         <div className={style.wrapper}>
             <AddItemForm addItem={addTodolist}/>

@@ -1,6 +1,7 @@
 import {FilterValuesType, TodolistType} from '../App';
 import {Dispatch} from "redux";
 import {todolistApi} from "../api/api";
+import {setIsLoadingAC} from "./app-reducer";
 
 export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST',
@@ -91,44 +92,59 @@ export const setTodolistsAC = (todolists: TodolistType[]): SetTodolistsAT => {
 
 export const getTodolistsTC = () => {
     return async (dispatch: Dispatch) => {
-        try {
-            const res = await todolistApi.get()
-            const todos = res.data.map((el: any) => ({...el, filter: 'all'}))
-            dispatch(setTodolistsAC(todos))
+            dispatch(setIsLoadingAC(true))
+            todolistApi.get()
+                .then((res)=>{
+                    const todos = res.data.map((el: any) => ({...el, filter: 'all'}))
+                    dispatch(setTodolistsAC(todos))
+                    })
+                .catch()
+                .finally(()=>{
+                    dispatch(setIsLoadingAC(false))
+                })
 
-        } catch (e) {
 
-        }
     }
 }
 
 export const createTodolistTC = (title: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setIsLoadingAC(true))
         todolistApi.create(title)
             .then((res) => {
                 const action = addTodolistAC(title, res.data.id);
                 dispatch(action);
             })
-            .catch(() => {
+            .catch()
+            .finally(() => {
+                dispatch(setIsLoadingAC(false))
             })
     }
 }
 
 export const deleteTodolistTC = (id: string) => (dispatch: Dispatch) => {
+    dispatch(setIsLoadingAC(true))
     todolistApi.delete(id)
         .then(() => {
             dispatch(removeTodolistAC(id));
         })
-        .catch(() => {
+        .catch()
+        .finally(() => {
+            dispatch(setIsLoadingAC(false))
         })
 }
 
 
 export const changeTodolistTitleTC = (id: string, title: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setIsLoadingAC(true))
         todolistApi.update(id, title)
             .then(() => {
                 dispatch(changeTodolistTitleAC(id, title));
+            })
+            .catch()
+            .finally(() => {
+                dispatch(setIsLoadingAC(false))
             })
     }
 }
