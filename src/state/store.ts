@@ -1,6 +1,7 @@
 import {tasksReducer} from './tasks-reducer';
 import {todolistsReducer} from './todolists-reducer';
-import {combineReducers, compose, createStore} from 'redux';
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
+import thunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -15,6 +16,6 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(rootReducer, composeEnhancers());
+export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 export type AppRootStateType = ReturnType<typeof rootReducer>
 

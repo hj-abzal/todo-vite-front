@@ -1,10 +1,12 @@
-import React, {useCallback} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {AddItemForm} from '../AddItemForm/AddItemForm'
 import {EditableSpan} from '../EditableSpan/EditableSpan'
 import {Task} from '../Tasks/Task'
 import {FilterValuesType} from '../../App';
 import s from "./Todolist.module.css";
 import trashIcon from '../../assets/icons8-trash.svg'
+import {useDispatch} from "react-redux";
+import {getTasksTC} from "../../state/tasks-reducer";
 
 export type TaskType = {
     id: string
@@ -28,6 +30,7 @@ type PropsType = {
 }
 
 export const Todolist = React.memo(function (props: PropsType) {
+    const dispatch = useDispatch<any>();
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
@@ -54,6 +57,9 @@ export const Todolist = React.memo(function (props: PropsType) {
         tasksForTodolist = props.tasks.filter(t => t.isDone === true)
     }
 
+    useEffect(() => {
+        dispatch(getTasksTC(props.id))
+    }, [])
     return <div className={s.wrapper}>
         <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
             <button  onClick={removeTodolist}>
