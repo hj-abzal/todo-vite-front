@@ -9,7 +9,11 @@ import {
     deleteTodolistTC,
     getTodolistsTC
 } from './state/todolists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
+import {
+    addTasksTC,
+    changeTaskStatusAC,
+    changeTaskTitleTC,removeTasksTC
+} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 
@@ -31,25 +35,24 @@ export function App() {
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
     const dispatch = useDispatch<any>();
 
-    const removeTask = useCallback(function (id: string, todolistId: string) {
-        const action = removeTaskAC(id, todolistId);
-        dispatch(action);
-    }, []);
+    const removeTask = useCallback(function (taskId: string, todolistId: string) {
+        dispatch(removeTasksTC(taskId,todolistId));
+        }, []);
 
-    const addTask = useCallback(function (title: string, todolistId: string) {
-        const action = addTaskAC(title, todolistId);
-        dispatch(action);
-    }, []);
+    const addTask = useCallback(function (title: string, todolistId: string){
+        dispatch(addTasksTC(title,todolistId));
+    }, [dispatch]);
 
     const changeStatus = useCallback(function (id: string, isDone: boolean, todolistId: string) {
         const action = changeTaskStatusAC(id, isDone, todolistId);
         dispatch(action);
     }, []);
 
-    const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
-        dispatch(action);
-    }, []);
+    const changeTaskTitle = useCallback(function (taskId:string,newTitle:string,todolistId:string,) {
+        console.log(newTitle)
+        console.log(todolistId)
+       dispatch(changeTaskTitleTC(taskId,newTitle,todolistId,));
+       }, []);
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
         const action = changeTodolistFilterAC(todolistId, value);

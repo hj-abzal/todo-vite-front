@@ -9,8 +9,8 @@ import {getTasksTC} from "./state/tasks-reducer";
 import {useDispatch} from "react-redux";
 
 export type TaskType = {
-    id: string
-    title: string
+    id: string;
+    title: string;
     isDone: boolean
 }
 
@@ -69,7 +69,9 @@ export const Todolist = React.memo(function (props: PropsType) {
         <AddItemForm addItem={addTask}/>
         <div>
             {
-                tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.id}
+                tasksForTodolist.map(t => <Task key={t.id}
+                                                id={t.id}
+                                                task={t} todolistId={props.id}
                                                 removeTask={props.removeTask}
                                                 changeTaskTitle={props.changeTaskTitle}
                                                 changeTaskStatus={props.changeTaskStatus}

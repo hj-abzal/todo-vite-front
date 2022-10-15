@@ -5,6 +5,7 @@ import './Task.css';
 import TrashTask from './assecs/icons8-trash.svg'
 
 type TaskPropsType = {
+    id:string
     task: TaskType
     todolistId: string
     changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
@@ -28,7 +29,7 @@ export const Task = React.memo((props: TaskPropsType) => {
         <EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
         <button className="left" onClick={onClickHandler}>x</button>
         <button onClick={onClickHandler}>
-            <img src={TrashTask}/>
+            <img src={TrashTask} alt=""/>
         </button>
     </div>
 })

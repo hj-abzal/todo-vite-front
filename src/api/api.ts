@@ -4,7 +4,7 @@ const instance = axios.create({
     baseURL: 'https://todo-back-production.up.railway.app/',
     headers: {
         withCredentials: true,
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbV9pZCI6MTA3MTkyNzE1MiwiaWQiOjEsImxvZ2luIjoiU3VhbiIsImlhdCI6MTY2NTIxMDkyNSwiZXhwIjoxNjY1Mjk3MzI1fQ.BwGF0tMmGCA-pQ3FhNqWpoqvZ771PehSWzzMHFqLZrU"
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbV9pZCI6MTI4ODMyNTc3MywiaWQiOjMsImxvZ2luIjoidWdhZ3ZhIiwiaWF0IjoxNjY1ODIwMjU4LCJleHAiOjE2NjU5MDY2NTh9.bwrZ-eFJIindnYhYZC8f01QCuVBD0mhwasWPIbWlgmw"
     }
 });
 
@@ -32,11 +32,11 @@ export const taskApi = {
     create: (title: string, todolistID: string) => {
         return instance.post(`todolists/${todolistID}/tasks`, {title})
     },
-    delete: (todoID: string, taskID: string) => {
-        return instance.delete(`todolists/${todoID}/tasks/${taskID}`)
+    delete:(taskID: string,todolistID: string) => {
+        return instance.delete(`todolists/${todolistID}/tasks/${taskID}`)
     },
-    update: (todoID: string, title: string, taskID: string) => {
-        return instance.put(`todolists/${todoID}/tasks/${taskID}`, {title})
+    update: (taskID:string,title:string,todolistID:string,) => {
+        return instance.put(`todolists/${todolistID}/tasks/${taskID}`, {title})
     }
 };
 
